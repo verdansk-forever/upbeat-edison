@@ -1,0 +1,18 @@
+name: Monthly rearm
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      content: write
+    steps:
+      - name: Clone repository
+        run: git clone "https://oauth2:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" -b "$GITHUB_REF_NAME" "$GITHUB_WORKSPACE" && cd "$GITHUB_WORKSPACE"
+
+      - name: Rearm
+        run: sh rearm
